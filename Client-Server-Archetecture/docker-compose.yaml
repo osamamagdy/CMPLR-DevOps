@@ -21,17 +21,8 @@ services:
 
 
   frontend:
-    image: cmplr.azurecr.io/frontend:latest
+    image: osamamagdy/cmplr_frontend:latest
     container_name: frontend
-    networks:
-      - cmplr
-    restart: on-failure
-    depends_on:
-      - backend
-
-  flutter:
-    image: cmplr.azurecr.io/flutter:latest
-    container_name: flutter
     networks:
       - cmplr
     restart: on-failure
@@ -40,7 +31,7 @@ services:
 
 
   backend:
-    image: cmplr.azurecr.io/backend:latest
+    image: osamamagdy/cmplr_backend:latest
     container_name: backend
     networks:
       - cmplr
@@ -66,6 +57,17 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - cmplr
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_ADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PG_ADMIN_PASSWORD}
+    networks:
+      - cmplr
+
 
 
 
